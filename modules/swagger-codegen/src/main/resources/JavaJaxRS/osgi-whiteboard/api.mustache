@@ -13,8 +13,7 @@ import java.util.List;
 import javax.validation.constraints.*;
 {{/useBeanValidation}}
 
-import org.osgi.service.component.annotations.Component;
-import org.osgi.annotation.versioning.ProviderType;
+{{>osgiImports}}
 
 @Path("/{{{baseName}}}")
 
@@ -46,7 +45,7 @@ public interface {{classname}}  {
     }{{/hasAuthMethods}}, tags={ {{#vendorExtensions.x-tags}}"{{tag}}"{{#hasMore}}, {{/hasMore}}{{/vendorExtensions.x-tags}} })
     @ApiResponses(value = { {{#responses}}
         @ApiResponse(code = {{{code}}}, message = "{{{message}}}", response = {{{returnType}}}.class{{#returnContainer}}, responseContainer = "{{{returnContainer}}}"{{/returnContainer}}){{#hasMore}},{{/hasMore}}{{/responses}} })
-    Response {{nickname}}({{#allParams}}{{>queryParams}}{{>pathParams}}{{>headerParams}}{{>bodyParams}}{{>formParams}}{{#hasMore}},{{/hasMore}}{{/allParams}});
+    {{>returnTypes}} {{nickname}}({{#allParams}}{{>queryParams}}{{>pathParams}}{{>headerParams}}{{>bodyParams}}{{>formParams}}{{#hasMore}},{{/hasMore}}{{/allParams}});
 
 {{/operation}}
 }
