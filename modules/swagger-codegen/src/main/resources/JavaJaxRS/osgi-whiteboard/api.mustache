@@ -18,7 +18,7 @@ import org.osgi.annotation.versioning.ProviderType;
 
 @Path("/{{{baseName}}}")
 
-@Api(description = "the {{{baseName}}} API")
+@Api(value = "the {{{baseName}}} API")
 {{#hasConsumes}}@Consumes({ {{#consumes}}"{{{mediaType}}}"{{#hasMore}}, {{/hasMore}}{{/consumes}} }){{/hasConsumes}}
 {{#hasProduces}}@Produces({ {{#produces}}"{{{mediaType}}}"{{#hasMore}}, {{/hasMore}}{{/produces}} }){{/hasProduces}}
 {{>generatedAnnotation}}
