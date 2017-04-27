@@ -20,7 +20,7 @@ import javax.validation.constraints.*;
 {{#hasProduces}}@Produces({ {{#produces}}"{{{mediaType}}}"{{#hasMore}}, {{/hasMore}}{{/produces}} }){{/hasProduces}}
 {{>generatedAnnotation}}
 
-public class {{classname}}  {
+public interface {{classname}}  {
 {{#operations}}
 {{#operation}}
 

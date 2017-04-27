@@ -28,8 +28,8 @@ public class JavaJAXRSOSGiWhiteboardServerCodegen extends AbstractJavaJAXRSServe
     {
         super();
         invokerPackage = "io.swagger.api";
-        artifactId = "swagger-jaxrs-server";
-        outputFolder = "generated-code/JavaJaxRS-Spec";
+        artifactId = "swagger-jaxrs-osgi-whiteboard-server";
+        outputFolder = "generated-code/JavaJaxRS-OSGi-Whiteboard";
 
         modelTemplateFiles.put("model.mustache", ".java");
         apiTemplateFiles.put("api.mustache", ".java");
@@ -51,7 +51,7 @@ public class JavaJAXRSOSGiWhiteboardServerCodegen extends AbstractJavaJAXRSServe
 
         importMapping.put("LocalDate", "org.joda.time.LocalDate");
 
-        super.embeddedTemplateDir = templateDir = JAXRS_TEMPLATE_DIRECTORY_NAME + File.separator + "spec";
+        super.embeddedTemplateDir = templateDir = JAXRS_TEMPLATE_DIRECTORY_NAME + File.separator + "osgi-whiteboard";
 
         for ( int i = 0; i < cliOptions.size(); i++ ) {
             if ( CodegenConstants.LIBRARY.equals(cliOptions.get(i).getOpt()) ) {
