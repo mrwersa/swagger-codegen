@@ -13,6 +13,9 @@ import java.util.List;
 import javax.validation.constraints.*;
 {{/useBeanValidation}}
 
+import org.osgi.service.component.annotations.Component;
+import org.osgi.annotation.versioning.ProviderType;
+
 @Path("/{{{baseName}}}")
 
 @Api(description = "the {{{baseName}}} API")
@@ -20,6 +23,12 @@ import javax.validation.constraints.*;
 {{#hasProduces}}@Produces({ {{#produces}}"{{{mediaType}}}"{{#hasMore}}, {{/hasMore}}{{/produces}} }){{/hasProduces}}
 {{>generatedAnnotation}}
 
+@Component(
+    immediate = true,
+    property = "osgi.jaxrs.resource.base=/{{{baseName}}}",
+    service = Object.class
+)
+@ProviderType
 public interface {{classname}}  {
 {{#operations}}
 {{#operation}}
@@ -37,9 +46,8 @@ public interface {{classname}}  {
     }{{/hasAuthMethods}}, tags={ {{#vendorExtensions.x-tags}}"{{tag}}"{{#hasMore}}, {{/hasMore}}{{/vendorExtensions.x-tags}} })
     @ApiResponses(value = { {{#responses}}
         @ApiResponse(code = {{{code}}}, message = "{{{message}}}", response = {{{returnType}}}.class{{#returnContainer}}, responseContainer = "{{{returnContainer}}}"{{/returnContainer}}){{#hasMore}},{{/hasMore}}{{/responses}} })
-    public Response {{nickname}}({{#allParams}}{{>queryParams}}{{>pathParams}}{{>headerParams}}{{>bodyParams}}{{>formParams}}{{#hasMore}},{{/hasMore}}{{/allParams}}) {
-        return Response.ok().entity("magic!").build();
-    }
+    Response {{nickname}}({{#allParams}}{{>queryParams}}{{>pathParams}}{{>headerParams}}{{>bodyParams}}{{>formParams}}{{#hasMore}},{{/hasMore}}{{/allParams}});
+
 {{/operation}}
 }
 {{/operations}}
