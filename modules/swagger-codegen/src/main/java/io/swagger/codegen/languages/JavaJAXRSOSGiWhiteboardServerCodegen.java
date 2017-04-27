@@ -88,7 +88,7 @@ public class JavaJAXRSOSGiWhiteboardServerCodegen extends AbstractJavaJAXRSServe
     @Override
     public String getName()
     {
-        return "jaxrs-spec";
+        return "jaxrs-osgi-whiteboard";
     }
 
     @Override
@@ -145,6 +145,6 @@ public class JavaJAXRSOSGiWhiteboardServerCodegen extends AbstractJavaJAXRSServe
     @Override
     public String getHelp()
     {
-        return "Generates a Java JAXRS Server according to JAXRS 2.0 specification.";
+        return "Generates a Java JAXRS Server according to JAX-RS Services whiteboard OSGi RFC-217.";
     }
 }
