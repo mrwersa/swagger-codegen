@@ -65,7 +65,7 @@ public class JavaJAXRSOSGiWhiteboardServerCodegen extends AbstractJavaJAXRSServe
 
         Map<String, String> supportedLibraries = new LinkedHashMap<String,String>();
 
-        supportedLibraries.put(DEFAULT_LIBRARY, "JAXRS");
+        supportedLibraries.put(DEFAULT_LIBRARY, "JAXRS-OSGI-WHITEBOARD");
         library.setEnum(supportedLibraries);
 
         cliOptions.add(library);
@@ -75,9 +75,6 @@ public class JavaJAXRSOSGiWhiteboardServerCodegen extends AbstractJavaJAXRSServe
     public void processOpts()
     {
         super.processOpts();
-
-        supportingFiles.clear(); // Don't need extra files provided by AbstractJAX-RS & Java Codegen
-        writeOptional(outputFolder, new SupportingFile("pom.mustache", "", "pom.xml"));
 
         writeOptional(outputFolder, new SupportingFile("RestApplication.mustache",
                 (sourceFolder + '/' + invokerPackage).replace(".", "/"), "RestApplication.java"));
