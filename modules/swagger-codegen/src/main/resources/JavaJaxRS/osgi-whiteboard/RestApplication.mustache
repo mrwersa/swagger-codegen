@@ -8,8 +8,15 @@ public class RestApplication extends Application {
 
     @Override
     Set<Class<?>> getClasses() {
-    {{#classNames}}
-        return Stream.of({{className}}.class{{#comma}},{{/comma}}).collect(toSet());
-    {{/classNames}}
+
+
+        return Stream.of(
+        {{#apiInfo}}
+        {{#apis}}
+            {{classname}}.class{{#comma}},{{/comma}}
+        {{/apis}}
+        {{/apiInfo}}
+        ).collect(toSet());
+
     }
 }
