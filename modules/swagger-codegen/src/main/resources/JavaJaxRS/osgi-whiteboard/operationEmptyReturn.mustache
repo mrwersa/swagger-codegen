@@ -1,0 +1,4 @@
+{{#useGenericResponse}}Response.ok().entity("magic!").build(){{/useGenericResponse}}{{! non-generic response:
+}}{{^useGenericResponse}}{{!
+}}{{#returnContainer}}{{#isMapContainer}}new HashMap<String, {{{returnType}}}>(){{/isMapContainer}}{{#isListContainer}}new ArrayList<{{{returnType}}}>(){{/isListContainer}}{{/returnContainer}}{{^returnContainer}}{{{returnType}}}{{/returnContainer}}{{!
+}}{{/useGenericResponse}}

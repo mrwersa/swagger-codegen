@@ -2,21 +2,37 @@ package {{invokerPackage}};
 
 import javax.ws.rs.ApplicationPath;
 import javax.ws.rs.core.Application;
+import javax.ws.rs.GET;
+import javax.ws.rs.Produces;
+import javax.ws.rs.core.Application;
 
-@ApplicationPath("/{{{basePath}}}")
+import java.util.Set;
+import java.util.List;
+import java.util.ArrayList;
+import java.util.stream.Collectors;
+
+{{>osgiImports}}
+
+@ApplicationPath("{{{contextPath}}}")
+
+@Component(
+    immediate = true,
+    property = "osgi.jaxrs.application.base=/{{{basePath}}}",
+    service = Application.class
+)
 public class RestApplication extends Application {
 
     @Override
     Set<Class<?>> getClasses() {
+        List resources= new ArrayList();
 
-
-        return Stream.of(
-        {{#apiInfo}}
+    {{#apiInfo}}
         {{#apis}}
-            {{classname}}.class{{#comma}},{{/comma}}
+        resources.add({{classname}}.class);
         {{/apis}}
-        {{/apiInfo}}
-        ).collect(toSet());
+    {{/apiInfo}}
+
+        return resources.stream.collect(Collectors.toSet());
 
     }
 }

@@ -11,5 +11,14 @@
     </parent>
     <artifactId>swagger-codegen-gradle-plugin</artifactId>
     <name>swagger-codegen (gradle-plugin)</name>
+    <packaging>pom</packaging>
+    <description>gradle plugin to build modules from swagger codegen</description>
+
+    <dependencies>
+        <!--Gradle-->
+
+
+
+    </dependencies>
 
 </project>
