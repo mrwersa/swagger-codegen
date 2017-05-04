@@ -21,66 +21,30 @@ import io.swagger.models.Swagger;
 import io.swagger.models.properties.Property;
 import io.swagger.util.Json;
 
-public class JavaJAXRSOSGiWhiteboardServerCodegen extends AbstractJavaJAXRSServerCodegen
+public class JavaJAXRSOSGiWhiteboardServerCodegen extends JavaJAXRSSpecServerCodegen
 {
 
     public JavaJAXRSOSGiWhiteboardServerCodegen()
     {
         super();
-        invokerPackage = "io.swagger.api";
+
         artifactId = "swagger-jaxrs-osgi-whiteboard-server";
         outputFolder = "generated-code/JavaJaxRS-OSGi-Whiteboard";
+        invokerPackage = "io.swagger.provider";
+        sourceFolder = "src" + File.separator + "gen" + File.separator + "java";
 
-        modelTemplateFiles.put("model.mustache", ".java");
-        apiTemplateFiles.put("api.mustache", ".java");
-        apiPackage = "io.swagger.api";
-        modelPackage = "io.swagger.model";
+        // put the implementation files in the same folder
+        implFolder = sourceFolder;
 
-        apiTestTemplateFiles.clear(); // TODO: add api test template
-        modelTestTemplateFiles.clear(); // TODO: add model test template
+        // API templates to support OSGi service provider
+        apiTemplateFiles.put("apiImpl.mustache", ".java");
 
-        // clear model and api doc template as this codegen
-        // does not support auto-generated markdown doc at the moment
-        //TODO: add doc templates
-        modelDocTemplateFiles.remove("model_doc.mustache");
-        apiDocTemplateFiles.remove("api_doc.mustache");
+        // Use standard types
+        typeMapping.put("DateTime", "java.util.Date");
 
-        additionalProperties.put("title", title);
-
-        typeMapping.put("date", "LocalDate");
-
-        importMapping.put("LocalDate", "org.joda.time.LocalDate");
-
-        super.embeddedTemplateDir = templateDir = JAXRS_TEMPLATE_DIRECTORY_NAME + File.separator + "osgi-whiteboard";
-
-        for ( int i = 0; i < cliOptions.size(); i++ ) {
-            if ( CodegenConstants.LIBRARY.equals(cliOptions.get(i).getOpt()) ) {
-                cliOptions.remove(i);
-                break;
-            }
-        }
-
-        CliOption library = new CliOption(CodegenConstants.LIBRARY, "library template (sub-template) to use");
-        library.setDefault(DEFAULT_LIBRARY);
-
-        Map<String, String> supportedLibraries = new LinkedHashMap<String,String>();
-
-        supportedLibraries.put(DEFAULT_LIBRARY, "JAXRS-OSGI-WHITEBOARD");
-        library.setEnum(supportedLibraries);
-
-        cliOptions.add(library);
+        // Updated template directory
+        embeddedTemplateDir = templateDir = JAXRS_TEMPLATE_DIRECTORY_NAME + File.separator + "osgi-whiteboard";
     }
-
-    @Override
-    public void processOpts()
-    {
-        super.processOpts();
-
-        writeOptional(outputFolder, new SupportingFile("RestApplication.mustache",
-                (sourceFolder + '/' + invokerPackage).replace(".", "/"), "RestApplication.java"));
-
-    }
-
 
     @Override
     public String getName()
@@ -88,60 +52,45 @@ public class JavaJAXRSOSGiWhiteboardServerCodegen extends AbstractJavaJAXRSServe
         return "jaxrs-osgi-whiteboard";
     }
 
-    @Override
-    public void addOperationToGroup(String tag, String resourcePath, Operation operation, CodegenOperation co, Map<String, List<CodegenOperation>> operations) {
-        String basePath = resourcePath;
-        if (basePath.startsWith("/")) {
-            basePath = basePath.substring(1);
-        }
-        int pos = basePath.indexOf("/");
-        if (pos > 0) {
-            basePath = basePath.substring(0, pos);
-        }
 
-        if (basePath == "") {
-            basePath = "default";
-        } else {
-            if (co.path.startsWith("/" + basePath)) {
-                co.path = co.path.substring(("/" + basePath).length());
-            }
-            co.subresourceOperation = !co.path.isEmpty();
-        }
-        List<CodegenOperation> opList = operations.get(basePath);
-        if (opList == null) {
-            opList = new ArrayList<CodegenOperation>();
-            operations.put(basePath, opList);
-        }
-        opList.add(co);
-        co.baseName = basePath;
+    @Override
+    public void processOpts()
+    {
+        super.processOpts();
+
+        supportingFiles.clear(); // Don't need extra files provided by AbstractJAX-RS & Java Codegen
+
+        // RestApplication into src/main/java
+        writeOptional(outputFolder, new SupportingFile("RestApplication.mustache",
+                (sourceFolder + '/' + invokerPackage).replace(".", "/"), "RestApplication.java"));
     }
 
     @Override
     public void postProcessModelProperty(CodegenModel model, CodegenProperty property) {
         super.postProcessModelProperty(model, property);
-        model.imports.remove("ApiModelProperty");
-        model.imports.remove("ApiModel");
-        model.imports.remove("JsonSerialize");
-        model.imports.remove("ToStringSerializer");
-        model.imports.remove("JsonValue");
-        model.imports.remove("JsonProperty");
+
+        // Reinstate JsonProperty
+        model.imports.add("JsonProperty");
     }
 
     @Override
-    public void preprocessSwagger(Swagger swagger) {
-        //copy input swagger to output folder
-        try {
-            String swaggerJson = Json.pretty(swagger);
-            FileUtils.writeStringToFile(new File(outputFolder + File.separator + "swagger.json"), swaggerJson);
-        } catch (IOException e) {
-            throw new RuntimeException(e.getMessage(), e.getCause());
-        }
-        super.preprocessSwagger(swagger);
-
-    }
-    @Override
-    public String getHelp()
-    {
+    public String getHelp() {
         return "Generates a Java JAXRS Server according to JAX-RS Services whiteboard OSGi RFC-217.";
+    }
+
+    @Override
+    public String apiFilename(String templateName, String tag) {
+        String result;
+
+        if ( templateName.endsWith("Impl.mustache") ) {
+            result = implFileFolder() + "/" +  toApiName(tag)  + "Impl.java";
+        } else {
+            result= super.apiFilename(templateName, tag);
+        }
+        return result;
+    }
+
+    private String implFileFolder() {
+        return outputFolder + "/" + implFolder + "/" + invokerPackage.replace('.', '/');
     }
 }
