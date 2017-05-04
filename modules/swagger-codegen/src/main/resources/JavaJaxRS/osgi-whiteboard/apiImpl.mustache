@@ -8,12 +8,23 @@ import javax.ws.rs.core.Response;
 
 import io.swagger.annotations.*;
 
+{{#returnContainer}}
+    {{#isMapContainer}}
+import java.util.Map;
+import java.util.HashMap;
+    {{/isMapContainer}}
+
+    {{#isListContainer}}
 import java.util.List;
+import java.util.ArrayList;
+    {{/isListContainer}}
+{{/returnContainer}}
+
 {{#useBeanValidation}}
 import javax.validation.constraints.*;
 {{/useBeanValidation}}
 
-{{>osgiImports}}
+import org.osgi.service.component.annotations.Component;
 
 @Component(
     immediate = true,

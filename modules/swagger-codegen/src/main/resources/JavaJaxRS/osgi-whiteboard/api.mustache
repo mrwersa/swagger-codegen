@@ -9,11 +9,22 @@ import javax.ws.rs.core.Response;
 import io.swagger.annotations.*;
 
 import java.util.List;
+
+{{#returnContainer}}
+    {{#isMapContainer}}
+import java.util.Map;
+    {{/isMapContainer}}
+
+    {{#isListContainer}}
+import java.util.List;
+    {{/isListContainer}}
+{{/returnContainer}}
+
 {{#useBeanValidation}}
 import javax.validation.constraints.*;
 {{/useBeanValidation}}
 
-{{>osgiImports}}
+import org.osgi.annotation.versioning.ProviderType;
 
 @Path("/{{{baseName}}}")
 
