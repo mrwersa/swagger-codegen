@@ -8,17 +8,7 @@ import javax.ws.rs.core.Response;
 
 import io.swagger.annotations.*;
 
-{{#returnContainer}}
-    {{#isMapContainer}}
-import java.util.Map;
-import java.util.HashMap;
-    {{/isMapContainer}}
-
-    {{#isListContainer}}
-import java.util.List;
-import java.util.ArrayList;
-    {{/isListContainer}}
-{{/returnContainer}}
+import java.util.*;
 
 {{#useBeanValidation}}
 import javax.validation.constraints.*;
