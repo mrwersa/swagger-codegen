@@ -17,7 +17,7 @@ apply plugin: 'idea'
 apply plugin: 'maven'
 
 dependencies {
-    compile 'io.swagger:swagger-codegen:2.2.3-SNAPSHOT'
+    compile 'io.swagger:swagger-codegen:2.2.4-SNAPSHOT'
     testCompile 'junit:junit:4.12'
     compile gradleApi()
     compile localGroovy()
