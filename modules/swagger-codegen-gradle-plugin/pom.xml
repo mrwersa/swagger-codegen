@@ -14,29 +14,6 @@
     <packaging>pom</packaging>
     <description>gradle plugin to build modules from swagger codegen</description>
 
-    <repositories>
-        <repository>
-            <id>Spring Source Libs</id>
-            <url>http://repo.springsource.org/libs-release-remote/</url>
-        </repository>
-    </repositories>
-
-    <dependencies>
-        <!--Gradle-->
-        <dependency>
-            <groupId>org.gradle</groupId>
-            <artifactId>gradle-core</artifactId>
-            <version>3.5</version>
-        </dependency>
-
-        <!--Swagger Code Gen-->
-        <dependency>
-            <groupId>io.swagger</groupId>
-            <artifactId>swagger-codegen</artifactId>
-            <version>2.2.3-SNAPSHOT</version>
-        </dependency>
-
-    </dependencies>
 
     <build>
         <plugins>
@@ -53,10 +30,8 @@
                 </configuration>
                 <executions>
                     <execution>
-                        <!-- You can bind this to any phase you like -->
                         <phase>compile</phase>
                         <goals>
-                            <!-- goal must be "invoke" -->
                             <goal>invoke</goal>
                         </goals>
                     </execution>
