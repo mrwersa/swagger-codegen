@@ -1,0 +1,6 @@
+sudo: false
+language: java
+script: gradle clean test
+jdk:
+  - oraclejdk8
+  - openjdk8
