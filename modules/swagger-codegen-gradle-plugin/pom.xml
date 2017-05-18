@@ -6,7 +6,7 @@
     <parent>
         <groupId>io.swagger</groupId>
         <artifactId>swagger-codegen-project</artifactId>
-        <version>2.2.4-SNAPSHOT</version>
+        <version>2.2.4</version>
         <relativePath>../..</relativePath>
     </parent>
     <artifactId>swagger-codegen-gradle-plugin</artifactId>
@@ -26,6 +26,7 @@
                         <task>clean</task>
                         <task>wrapper</task>
                         <task>build</task>
+                        <task>upload</task>
                     </tasks>
                 </configuration>
                 <executions>
@@ -39,4 +40,10 @@
             </plugin>
         </plugins>
     </build>
+
+    <properties>
+        <!--Skip deploying. Gradle will take care of building and deploying -->
+        <maven.deploy.skip>true</maven.deploy.skip>
+        <skipNexusStagingDeployMojo>true</skipNexusStagingDeployMojo>	 	               <skipNexusStagingDeployMojo>true</skipNexusStagingDeployMojo>
+    </properties>
 </project>

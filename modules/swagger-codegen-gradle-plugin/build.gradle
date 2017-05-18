@@ -17,14 +17,16 @@ apply plugin: 'idea'
 apply plugin: 'maven'
 
 dependencies {
-    compile 'io.swagger:swagger-codegen:2.2.4-SNAPSHOT'
+    compile 'io.swagger:swagger-codegen:2.2.4'
     testCompile 'junit:junit:4.12'
     compile gradleApi()
     compile localGroovy()
 }
 
 repositories {
-    mavenLocal()
+    maven {
+        url "http://sa-centos6-dev-01:8081/nexus/repository/telensa-releases/"
+    }
     mavenCentral()
     jcenter()
 }
@@ -33,7 +35,12 @@ apply plugin: 'maven'
 uploadArchives {
     repositories {
         mavenDeployer {
-            repository(url: uri('../repo'))
+            repository(url: "http://sa-centos6-dev-01:8081/nexus/repository/telensa-releases/")  {
+                authentication(userName: "admin", password: "admin123")
+            }
+            pom.version = "1.0.0"
+            pom.artifactId = "swagger-codegen-gradle-plugin"
+            pom.groupId = "com.telensa"
         }
     }
 }
@@ -51,7 +58,7 @@ pluginBundle {
 
     plugins {
         swaggerCodeGenPlugin {
-            id = 'com.telensa.swagger-codegen'
+            id = 'com.telensa.swagger-codegen-gradle-plugin'
             displayName = 'Gradle Swagger code generator plugin'
         }
     }
