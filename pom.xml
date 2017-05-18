@@ -238,7 +238,7 @@
                     </execution>
                 </executions>
                 <configuration>
-                    <serverId>nexus-releases</serverId>
+                    <serverId>nexus-central</serverId>
                     <nexusUrl>http://sa-centos6-dev-01:8081/nexus/</nexusUrl>
                     <skipStaging>true</skipStaging>
                 </configuration>
@@ -955,13 +955,10 @@
 
     <!-- Nexus Requirements -->
     <distributionManagement>
-        <snapshotRepository>
-            <id>nexus-snapshots</id>
-            <url>http://sa-centos6-dev-01:8081/nexus/repository/telensa-snapshots/</url>
-        </snapshotRepository>
+        <!--Upload to telensa central-->
         <repository>
-            <id>nexus-releases</id>
-            <url>http://sa-centos6-dev-01:8081/nexus/repository/telensa-releases/</url>
+            <id>nexus-central</id>
+            <url>http://sa-centos6-dev-01:8081/nexus/repository/telensa-central/</url>
         </repository>
     </distributionManagement>
 
