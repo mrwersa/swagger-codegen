@@ -931,4 +931,13 @@
         <jmockit-version>1.25</jmockit-version>
         <reflections-version>0.9.10</reflections-version>
     </properties>
+
+    <!-- Nexus Requirements -->
+    <distributionManagement>
+        <snapshotRepository>
+            <id>nexus-snapshots</id>
+            <url>http://sa-centos6-dev-01:8081/nexus/repository/maven-snapshots/</url>
+        </snapshotRepository>
+    </distributionManagement>
+
 </project>
