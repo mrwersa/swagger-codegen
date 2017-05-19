@@ -10,14 +10,13 @@ buildscript {
     }
 }
 
-
 apply plugin: 'com.gradle.plugin-publish'
 apply plugin: 'groovy'
 apply plugin: 'idea'
 apply plugin: 'maven'
 
 dependencies {
-    compile 'io.swagger:swagger-codegen:2.2.4'
+    compile 'com.telensa:swagger-codegen:1.0.0'
     testCompile 'junit:junit:4.12'
     compile gradleApi()
     compile localGroovy()
